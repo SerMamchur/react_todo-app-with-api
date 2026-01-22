@@ -223,8 +223,6 @@ export const App: React.FC = () => {
   ): Promise<boolean> {
     const updatingTodo = newTitle.trim();
 
-    // console.log(todoId, oldTitle, updatingTodo)
-
     if (updatingTodo.length === 0) {
       return deleteTodo(todoId);
     }
@@ -235,38 +233,6 @@ export const App: React.FC = () => {
 
     return updateTodo(updatingTodo, todoId);
   }
-
-  // function handleCheckedId(id: number) {
-  //   setSelectedId(id);
-  //   const oldCompletedTodo: boolean = todos.find(tod => tod.id === id)!.completed;
-
-  //   setTodos(prevTodos =>
-  //     prevTodos.map(prev => {
-  //       if (prev.id === id) {
-  //         return { ...prev, completed: !prev.completed };
-  //       }
-
-  //       return prev;
-  //     })
-  //   )
-  //     todosServers.client.patch(`/todos/${id}`, {
-  //       completed: !oldCompletedTodo,
-  //     }).catch(() => {
-  //        setTodos(prevTodos =>
-  //         prevTodos.map(todo => {
-  //           if (todo.id === id) {
-  //             return { ...todo, completed: oldCompletedTodo }
-  //           }
-
-  //           return todo;
-  //         })
-  //        )
-  //        setErrorMessage(ErrorMessages.UpdateTodos);
-  //     }).finally(() => {
-  //       setSelectedId(null);
-  //     })
-  //   }
-  // }
 
   function handleCheckedId(id: number) {
     setSelectedId(id);
