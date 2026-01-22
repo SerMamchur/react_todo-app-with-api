@@ -6,14 +6,14 @@ type Props = {
   handleCheckedId: (id: number) => void;
   visibleTodos: Todo[];
   tempTodo: Todo | null;
-  errorMessage: string | null;
+  delitingTodos: number[];
   selectedId: number | null;
   updateTodo: (updatedTod: string, id: number) => void;
   handleUpdateTodo: (
     todoId: number,
     oldTitle: string,
     editingTitle: string,
-  ) => void;
+  ) => Promise<boolean>;
   // setErrorMessage: () => void;
   // onEdit: (id: number, title: string) => void;
 };
@@ -21,8 +21,8 @@ type Props = {
 export const TodoList = ({
   visibleTodos,
   handleCheckedId,
-  errorMessage,
   deleteTodo,
+  delitingTodos,
   tempTodo,
   selectedId,
   updateTodo,
@@ -45,8 +45,8 @@ export const TodoList = ({
             deleteTodo={deleteTodo}
             selectedId={selectedId}
             updateTodo={updateTodo}
-            errorMessage={errorMessage}
             handleUpdateTodo={handleUpdateTodo}
+            delitingTodos={delitingTodos}
           />
         );
       })}

@@ -2,26 +2,25 @@
 import classNames from 'classnames';
 import { Todo } from '../types/Todo';
 import { useEffect, useRef, useState } from 'react';
-import { ErrorMessages } from '../enums/errors';
 
 type Props = {
   deleteTodo?: (postId: number) => void;
   handleCheckedId?: (id: number) => void;
   todo: Todo;
-  errorMessage: string | null;
   selectedId: number | null;
   updateTodo: (updatedTod: string, id: number) => void;
   handleUpdateTodo: (
     todoId: number,
     oldTitle: string,
     editingTitle: string,
-  ) => boolean;
+  ) => Promise<boolean>;
+  delitingTodos: number[];
 };
 
 export const TodoItem = ({
   todo,
-  errorMessage,
   deleteTodo,
+  delitingTodos,
   handleCheckedId,
   selectedId,
   handleUpdateTodo,
@@ -70,16 +69,6 @@ export const TodoItem = ({
   }
   // #endregion
 
-  // useEffect(() => {
-  //   if (
-  //     isEditing &&
-  //     selectedId === null &&
-  //     errorMessage !== ErrorMessages.UpdateTodos
-  //   ) {
-  //     setIsEditing(false);
-  //   }
-  // }, [selectedId, errorMessage]);
-
   useEffect(() => {
     if (isEditing) {
       inputRef.current?.focus();
@@ -94,7 +83,7 @@ export const TodoItem = ({
           type="checkbox"
           className="todo__status"
           checked={todo.completed}
-          onChange={() => handleCheckedId(todo.id)}
+          onChange={() => handleCheckedId?.(todo.id)}
           disabled={todo.id === selectedId}
         />
       </label>
@@ -130,7 +119,7 @@ export const TodoItem = ({
           className="todo__remove"
           data-cy="TodoDelete"
           onClick={() => {
-            deleteTodo(todo.id);
+            deleteTodo?.(todo.id);
           }}
         >
           ×
@@ -141,7 +130,10 @@ export const TodoItem = ({
       <div
         data-cy="TodoLoader"
         className={classNames('modal overlay', {
-          'is-active': todo.id === 0 || selectedId === todo.id,
+          'is-active':
+            todo.id === 0 ||
+            selectedId === todo.id ||
+            delitingTodos.includes(todo.id),
         })}
       >
         <div className="modal-background has-background-white-ter" />

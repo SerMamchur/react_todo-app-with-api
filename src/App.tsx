@@ -28,6 +28,7 @@ export const App: React.FC = () => {
 
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [isAdding, setIsAdding] = useState<boolean>(false);
+  const [delitingTodos, setDelitingTodos] = useState<number[]>([]);
   //  #endregion
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -304,6 +305,12 @@ export const App: React.FC = () => {
   }
 
   function handleClearComleated() {
+    const allDelitingTodos = todos
+      .filter(tod => tod.completed)
+      .map(tod => tod.id);
+
+    setDelitingTodos(allDelitingTodos);
+
     todos.forEach(tod => {
       if (tod.completed) {
         deleteTodo(tod.id);
@@ -339,9 +346,7 @@ export const App: React.FC = () => {
           selectedId={selectedId}
           updateTodo={updateTodo}
           handleUpdateTodo={handleUpdateTodo}
-          errorMessage={errorMessage}
-        // setSelectedId={setSelectedId}
-        // setErrorMessage={setErrorMessage}
+          delitingTodos={delitingTodos}
         />
 
         {/* Hide the footer if there are no todos */}
